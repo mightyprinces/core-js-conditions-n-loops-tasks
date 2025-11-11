@@ -306,51 +306,26 @@ function isContainNumber(num, digit) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-// function getBalanceIndex(arr) {
-//   let i = 0;
-//   let j = arr.length - 1;
-//   let sum1 = arr[i];
-//   let sum2 = arr[j];
-
-//   while (i <= j) {
-//     if (sum1 < sum2) {
-//       i += 1;
-//       sum1 += arr[i];
-//     } else if (sum2 < sum1) {
-//       j -= 1;
-//       sum2 += arr[j];
-//     } else if (i + 1 === j - 1) {
-//       return i + 1;
-//     }
-//   }
-
-//   return -1;
-// }
 
 function getBalanceIndex(arr) {
-  let i = 0;
+  if (arr.length === 0) return -1;
 
-  while (i < arr.length) {
-    let leftSum = 0;
-    let rightSum = 0;
+  let rightSum = 0;
 
-    let l = 0;
-    while (l < i) {
-      leftSum += arr[l];
-      l += 1;
-    }
+  for (let i = 0; i < arr.length; i += 1) {
+    rightSum += arr[i];
+  }
 
-    let r = i + 1;
-    while (r < arr.length) {
-      rightSum += arr[r];
-      r += 1;
-    }
+  let leftSum = 0;
+
+  for (let i = 0; i < arr.length; i += 1) {
+    rightSum -= arr[i];
 
     if (leftSum === rightSum) {
       return i;
     }
 
-    i += 1;
+    leftSum += arr[i];
   }
 
   return -1;
@@ -379,6 +354,14 @@ function getBalanceIndex(arr) {
  */
 function getSpiralMatrix(/* size */) {
   throw new Error('Not implemented');
+  // const matrix = [];
+  // for (let i = 0; i < size; i += 1) {
+  //   matrix[i] = [];
+
+  //   for (let j = 0; j < size; j += 1) {
+  //     matrix[i][j] = 0;
+  //   }
+  // }
 }
 
 /**
@@ -399,6 +382,16 @@ function getSpiralMatrix(/* size */) {
 function rotateMatrix(/* matrix */) {
   throw new Error('Not implemented');
 }
+
+// function rotateMatrix(matrix) {
+//   for (let i = 0; i < matrix.length; i += 1) {
+
+//     for (let j = 0; j < matrix[i].length; j += 1) {
+//       matrix[i][j] = i + j + 1;
+//     }
+//   }
+
+// }
 
 /**
  * Sorts an array of numbers in ascending order in place.
