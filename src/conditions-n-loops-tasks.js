@@ -476,9 +476,57 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  const array = arr;
+
+  function quickSort(left, right) {
+    if (left >= right) return;
+
+    const pivot = array[Math.floor((left + right) / 2)];
+    let i = left;
+    let j = right;
+
+    while (i <= j) {
+      while (array[i] < pivot) i += 1;
+      while (array[j] > pivot) j -= 1;
+
+      if (i <= j) {
+        const tmp = array[i];
+        array[i] = array[j];
+        array[j] = tmp;
+        i += 1;
+        j -= 1;
+      }
+    }
+
+    if (left < j) quickSort(left, j);
+    if (i < right) quickSort(i, right);
+  }
+
+  quickSort(0, array.length - 1);
+  return array;
 }
+
+// Bubble Sort - bad timing, but easy to understand
+// function sortByAsc(arr) {
+//   const array = arr;
+//   let swapped = true;
+
+//   while (swapped) {
+//     swapped = false;
+
+//     for (let i = 0; i < array.length; i += 1) {
+//       if (array[i] > array[i + 1]) {
+//         const temp = array[i];
+//         array[i] = array[i + 1];
+//         array[i + 1] = temp;
+//         swapped = true;
+//       }
+//     }
+//   }
+
+//   return array;
+// }
 
 /**
  * Shuffles characters in a string so that the characters with an odd index are moved to the end of the string at each iteration.
@@ -497,8 +545,63 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+
+function shuffleChar(str, iterations) {
+  const len = str.length;
+
+  if (len === 0 || iterations === 0) {
+    return str;
+  }
+
+  const halfEven = Math.ceil(len / 2);
+
+  const visited = new Array(len);
+  const resultChars = new Array(len);
+  const cycle = new Array(len);
+
+  let i;
+  let j;
+  let k;
+  let L;
+  let step;
+  let newIndex;
+
+  for (i = 0; i < len; i += 1) {
+    visited[i] = false;
+  }
+
+  for (i = 0; i < len; i += 1) {
+    if (!visited[i]) {
+      L = 0;
+      j = i;
+
+      while (!visited[j]) {
+        visited[j] = true;
+        cycle[L] = j;
+        L += 1;
+
+        if (j % 2 === 0) {
+          j /= 2;
+        } else {
+          j = halfEven + Math.floor(j / 2);
+        }
+      }
+
+      step = iterations % L;
+
+      for (k = 0; k < L; k += 1) {
+        newIndex = cycle[(k + step) % L];
+        resultChars[newIndex] = str[cycle[k]];
+      }
+    }
+  }
+
+  let result = '';
+  for (i = 0; i < len; i += 1) {
+    result += resultChars[i];
+  }
+
+  return result;
 }
 
 /**
